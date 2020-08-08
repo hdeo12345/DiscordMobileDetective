@@ -1,17 +1,58 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+
+const channelid = '741679888251093066';
+const serverid = '741679888251093063';
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
-  if (msg.content === '!ping') {
-    msg.reply('Pong!');
+  let channel = client.channels.cache.get(channelid);
+  if(msg.content.startsWith("!rank")) {
+
+    sortUsers();
+    
+    var count = 0;
+    var found = false;
+    users.forEach((elem) => {
+      count += 1;
+      if(elem.userid == msg.author.id) {
+        channel.send("You're ranked at number: **" + count + "/" + users.length + "** tut tut tut...");     
+        found = true;   
+      }
+    })
+    if(!found) {
+      channel.send("You have not been caught.          Yet....");     
+    }
   }
+  if(msg.content.startsWith("!top5")) {
+    sortUsers();
+    var text = "```";
+    var loopTimes = 0;
+    loopTimes = users.length > 4 ? 5 : users.length;
+
+    for (i = 0; i < loopTimes; i++) {
+      text += (i + 1) + ") <@" + users[i].username + "> (" + users[i].timescaught + ")" + "\n";
+    }
+    text += "```";
+    channel.send(text);
+  } 
 });
 
-var users = {};
+function sortUsers() {
+  users.sort(function(a, b){
+    return b.timescaught - a.timescaught
+  })
+}
+
+var users = [
+  {username: "test1", userid: "1", timescaught: 1},
+  {username: "test2", userid: "2", timescaught: 2}
+];
+
 
 function randomInsult() {
     var insults = [
@@ -31,21 +72,28 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
   
   try {
     let member = newPresence.member;
-    if(member.guild.id !== "699722604340314192") {
+    if(member.guild.id !== serverid) {
         return;
     }
     let userID = member.user.id;
-    let channel = member.guild.channels.cache.get('699722604340314195');
+    let channel = member.guild.channels.cache.get(channelid);
     let text = "";
     if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
-        if(users[userID] == undefined) {
-            users[userID] = 1;
-            console.log(userID + " added to database");
-        } else {
-            users[userID] = users[userID] + 1;
+      var found = false;
+      users.forEach((elem) => {        
+        if(elem.userid == userID) {
+          found = true;
+          elem.timescaught = elem.timescaught + 1;
+          text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + elem.timescaught;
+          return true;
         }
-        text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + users[userID];        
-        channel.send(text);
+      })
+      if(!found) {
+        users.push({username: member.user.username, userid: userID, timescaught: 1});
+        console.log("added to database");
+        text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: 1";
+      }                     
+      channel.send(text);
     }    
   }
   catch(err) {
@@ -53,4 +101,4 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
   }
     
 });
-client.login(process.env.BOT_TOKEN);
+client.login("NzQxNjgwMDY3NzI1MzYxMjYy.Xy7FYw.6lbXzpx5wtBV45JNXj2CdaXDqbA");

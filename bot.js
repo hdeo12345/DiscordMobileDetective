@@ -30,14 +30,14 @@ client.on('message', msg => {
   }
   if(msg.content.startsWith("!top5")) {
     sortUsers();
-    var text = "```";
+    var text = "";
     var loopTimes = 0;
     loopTimes = users.length > 4 ? 5 : users.length;
 
     for (i = 0; i < loopTimes; i++) {
       text += (i + 1) + ") <@" + users[i].username + "> (" + users[i].timescaught + ")" + "\n";
     }
-    text += "```";
+    text += "";
     channel.send(text);
   } 
 });

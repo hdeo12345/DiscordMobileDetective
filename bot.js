@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
-const channelid = process.env.CHANNEL_KEY;
+channelid = process.env.CHANNEL_KEY;
 const serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];

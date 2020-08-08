@@ -11,7 +11,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   let channel = client.channels.cache.get(channelid);
-  if(msg.content.startsWith("!rank")) {
+  if(msg.content == "!rank") {
 
     sortUsers();
     
@@ -29,10 +29,12 @@ client.on('message', msg => {
     }
   }
   if(msg.content.startsWith("!top5")) {
+    var amount = parseInt(msg.content.replace("!top",""));
+
     sortUsers();
     var text = "<:crown:741752952737366057>";
     var loopTimes = 0;
-    loopTimes = users.length > 4 ? 5 : users.length;
+    loopTimes = users.length > amount ? amount : users.length;
 
     for (i = 0; i < loopTimes; i++) {
       if (i == 0) {

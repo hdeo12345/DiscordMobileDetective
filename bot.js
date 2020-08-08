@@ -30,7 +30,7 @@ function randomInsult() {
 client.on('presenceUpdate', (oldPresence, newPresence) => {
     let member = newPresence.member;
     let userID = member.user.id;
-    let channel = member.guild.channels.cache.get('741679888251093066');
+    let channel = member.guild.channels.cache.get('699722604340314195');
     let text = "";
     if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
         if(users[userID] == undefined) {

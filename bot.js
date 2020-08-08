@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 
 var channelid = process.env.CHANNEL_KEY;
-const serverid = process.env.SERVER_KEY;
+var serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];
 
@@ -54,6 +54,13 @@ client.on('message', msg => {
     {
       channelid = msg.content.replace("!mdchannel", "").toString();
       channel.send("I now post into the channel: <@" + channelid + ">"); 
+    } 
+  }
+  if(msg.content.startsWith("!mdserver")){
+    if(admins.includes(msg.author.id))
+    {
+      serverid = msg.content.replace("!mdserver", "").toString();
+      channel.send("I now post into the server: <@" + serverid + ">"); 
     } 
   }
 });

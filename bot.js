@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 client.on('ready', () => {
-  System.out.println(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
@@ -28,15 +28,19 @@ function randomInsult() {
 
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
+  
   try {
     let member = newPresence.member;
+    if(member.guild.id !== "699722604340314192") {
+        return;
+    }
     let userID = member.user.id;
-    let channel = member.guild.channels.cache.get('741679888779706437');
+    let channel = member.guild.channels.cache.get('699722604340314195');
     let text = "";
     if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
         if(users[userID] == undefined) {
             users[userID] = 1;
-            System.out.println(userID + " added to database");
+            console.log(userID + " added to database");
         } else {
             users[userID] = users[userID] + 1;
         }
@@ -45,7 +49,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     }    
   }
   catch(err) {
-    System.out.println(err);
+    console.log(err);
   }
     
 });

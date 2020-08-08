@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  System.out.println(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
@@ -36,7 +36,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
         if(users[userID] == undefined) {
             users[userID] = 1;
-            console.log(userID + " added to database");
+            System.out.println(userID + " added to database");
         } else {
             users[userID] = users[userID] + 1;
         }
@@ -45,7 +45,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     }    
   }
   catch(err) {
-    console.log(err);
+    System.out.println(err);
   }
     
 });

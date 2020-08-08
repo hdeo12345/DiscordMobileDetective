@@ -30,12 +30,12 @@ client.on('message', msg => {
   }
   if(msg.content.startsWith("!top5")) {
     sortUsers();
-    var text = "";
+    var text = "<:crown:741752952737366057>";
     var loopTimes = 0;
     loopTimes = users.length > 4 ? 5 : users.length;
 
     for (i = 0; i < loopTimes; i++) {
-      text += (i + 1) + ") <@" + users[i].userid + "> (" + users[i].timescaught + ")" + "\n";
+      text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
     }
     text += "";
     channel.send(text);
@@ -48,10 +48,7 @@ function sortUsers() {
   })
 }
 
-var users = [
-  {username: "test1", userid: "1", timescaught: 1},
-  {username: "test2", userid: "2", timescaught: 2}
-];
+var users = [];
 
 
 function randomInsult() {

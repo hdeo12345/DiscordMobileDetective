@@ -73,7 +73,13 @@ function randomInsult() {
         "The neo nazi",
         "The apefucker",
         "The egghead",
-        "The fattard"
+        "The fattard",
+        "The arse-licker",
+        "The pikey",
+        "The slag",
+        "The trollop",
+        "The nonce",
+        "The sone of a bitch"
     ]
     var insult = insults[Math.floor(Math.random() * insults.length)];
     return insult;

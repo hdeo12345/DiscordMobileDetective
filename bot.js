@@ -51,7 +51,7 @@ client.on('message', msg => {
   if(msg.content.startsWith("!mdchannel")){
     if(admins.includes(msg.author.id))
     {
-      channelid = parseInt(msg.content.replace("!mdchannel", ""));
+      channelid = BigInt(msg.content.replace("!mdchannel", ""));
       channel.send("I now post into the channel: <@" + channelid + ">"); 
     } 
   }

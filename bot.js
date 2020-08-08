@@ -52,7 +52,9 @@ client.on('message', msg => {
   if(msg.content.startsWith("!mdchannel")){
     if(admins.includes(msg.author.id))
     {
+      console.log(msg.content);
       channelid = BigInt(msg.content.replace("!mdchannel", ""));
+      console.log(channelid);
       channel.send("I now post into the channel: <@" + channelid + ">"); 
     } 
   }

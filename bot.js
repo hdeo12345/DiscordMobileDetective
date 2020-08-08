@@ -13,7 +13,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   let channel = client.channels.cache.get(channelid);
-  if(msg.content == "!rank") {
+  if(msg.content == "!mdrank") {
 
     sortUsers();
     
@@ -30,8 +30,8 @@ client.on('message', msg => {
       channel.send("You have not been caught.          Yet....");     
     }
   }
-  if(msg.content.startsWith("!top")) {
-    var amount = parseInt(msg.content.replace("!top",""));
+  if(msg.content.startsWith("!mdtop")) {
+    var amount = parseInt(msg.content.replace("!mdtop",""));
     console.log(channelid);
 
     sortUsers();

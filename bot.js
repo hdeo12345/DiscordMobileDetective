@@ -52,7 +52,7 @@ client.on('message', msg => {
     if(admins.includes(msg.author.id))
     {
       channelid = parseInt(msg.content.replace("!mdchannel", ""));
-      channel.send("I now post into the channel: " + client.Guild.channels.find(c => c.id == channelid).username)
+      channel.send("I now post into the channel: <@" + channelid + ">"); 
     } 
   }
 });

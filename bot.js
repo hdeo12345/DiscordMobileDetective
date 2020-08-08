@@ -32,6 +32,7 @@ client.on('message', msg => {
   }
   if(msg.content.startsWith("!top")) {
     var amount = parseInt(msg.content.replace("!top",""));
+    console.log(channelid);
 
     sortUsers();
     var text = "<:crown:741752952737366057>";

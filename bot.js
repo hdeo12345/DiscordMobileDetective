@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-var auth = require('./auth.json');
 const client = new Discord.Client();
 
 client.on('ready', () => {

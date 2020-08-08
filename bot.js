@@ -80,7 +80,7 @@ function randomInsult() {
         "The slag",
         "The trollop",
         "The nonce",
-        "The sone of a bitch"
+        "The son of a bitch"
     ]
     var insult = insults[Math.floor(Math.random() * insults.length)];
     return insult;

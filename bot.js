@@ -51,8 +51,8 @@ client.on('message', msg => {
   if(msg.content.startsWith("!mdchannel")){
     if(admins.includes(msg.author.id))
     {
-      channelid = channelid.replace(/\D/g,''); //msg.content.replace("!mdchannel", "");
-      channel.send("I now post into the channel: " + channel.text)
+      channelid = parseInt(msg.content.replace("!mdchannel", ""));
+      channel.send("I now post into the channel: " + guild.channels.find(c => c.id == channelid).username)
     } 
   }
 });

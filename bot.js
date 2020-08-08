@@ -44,4 +44,4 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
         channel.send(text);
     }    
 });
-client.login(auth.token);
+client.login(process.env.NzQxNjgwMDY3NzI1MzYxMjYy.Xy7FYw.6lbXzpx5wtBV45JNXj2CdaXDqbA);

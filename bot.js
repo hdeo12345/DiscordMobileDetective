@@ -5,6 +5,8 @@ const client = new Discord.Client();
 const channelid = process.env.CHANNEL_KEY;
 const serverid = process.env.SERVER_KEY;
 
+var admins= ["232562168350900224", "141587971144024064"];
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -46,6 +48,12 @@ client.on('message', msg => {
     text += "";
     channel.send(text);
   } 
+  if(msg.content.startsWith("!mdchannel")){
+    if(admins.includes(msg.author.id))
+    {
+      channelid = msg.content.replace("!mdchannel", "");
+    } 
+  }
 });
 
 function sortUsers() {

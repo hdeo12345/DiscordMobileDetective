@@ -1,11 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+
 const channelid = process.env.CHANNEL_KEY;
 const serverid = process.env.SERVER_KEY;
-
-var users = [];
-var servers = "";
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -56,6 +54,9 @@ function sortUsers() {
   })
 }
 
+var users = [];
+
+
 function randomInsult() {
     var insults = [
         "The alcoholic",
@@ -63,18 +64,12 @@ function randomInsult() {
         "The neo nazi",
         "The apefucker",
         "The egghead",
-        "The fattard",
-        "The nonce",
-        "The carry",
-        "The set 3 maths kid",
-        "The 'shouldnt be let out the house alone'",
-        "The douchebaggette",
-        "The virg",
-        "The arse-licker"
+        "The fattard"
     ]
     var insult = insults[Math.floor(Math.random() * insults.length)];
     return insult;
 }
+
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
   
@@ -109,9 +104,4 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
   }
     
 });
-
-function isValidServer(serverID) {
-
-}
-
 client.login(process.env.BOT_TOKEN);

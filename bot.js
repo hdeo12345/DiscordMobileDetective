@@ -31,7 +31,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
   try {
     let member = newPresence.member;
     let userID = member.user.id;
-    let channel = member.guild.channels.cache.get('699722604340314195');
+    let channel = member.guild.channels.cache.get('741679888779706437');
     let text = "";
     if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
         if(users[userID] == undefined) {
@@ -45,7 +45,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     }    
   }
   catch(err) {
-    document.getElementById("demo").innerHTML = err.message;
+    console.log(err);
   }
     
 });

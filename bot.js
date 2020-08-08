@@ -28,6 +28,7 @@ function randomInsult() {
 
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
+  try {
     let member = newPresence.member;
     let userID = member.user.id;
     let channel = member.guild.channels.cache.get('699722604340314195');
@@ -42,5 +43,10 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
         text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + users[userID];        
         channel.send(text);
     }    
+  }
+  catch(err) {
+    document.getElementById("demo").innerHTML = err.message;
+  }
+    
 });
 client.login(process.env.BOT_TOKEN);

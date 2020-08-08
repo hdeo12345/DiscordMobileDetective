@@ -28,7 +28,7 @@ client.on('message', msg => {
       channel.send("You have not been caught.          Yet....");     
     }
   }
-  if(msg.content.startsWith("!top5")) {
+  if(msg.content.startsWith("!top")) {
     var amount = parseInt(msg.content.replace("!top",""));
 
     sortUsers();

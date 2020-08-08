@@ -35,7 +35,11 @@ client.on('message', msg => {
     loopTimes = users.length > 4 ? 5 : users.length;
 
     for (i = 0; i < loopTimes; i++) {
-      text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
+      if (i == 0) {
+        text += " <@" + users[i].userid + "> (" + users[i].timescaught + ")\n"
+      } else {
+        text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
+      }      
     }
     text += "";
     channel.send(text);

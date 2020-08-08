@@ -2,8 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
-const channelid = '741679888251093066';
-const serverid = '741679888251093063';
+const channelid = '699722604340314195';
+const serverid = '699722604340314192';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
-channelid = process.env.CHANNEL_KEY;
+var channelid = process.env.CHANNEL_KEY;
 const serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];
@@ -51,7 +51,8 @@ client.on('message', msg => {
   if(msg.content.startsWith("!mdchannel")){
     if(admins.includes(msg.author.id))
     {
-      channelid = msg.content.replace("!mdchannel", "");
+      channelid = channelid.replace(/\D/g,''); //msg.content.replace("!mdchannel", "");
+      channel.send("I now post into the channel: " + channel.text)
     } 
   }
 });

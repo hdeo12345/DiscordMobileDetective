@@ -2,8 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
-const channelid = '741679888251093066';
-const serverid = '741679888251093063';
+const channelid = process.env.CHANNEL_KEY;
+const serverid = process.env.SERVER_KEY;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

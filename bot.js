@@ -68,7 +68,7 @@ client.on('message', msg => {
           if (i == 0) {
             text += " <@" + users[i].userid + "> (" + users[i].timescaught + ")\n"
           } else {
-            text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
+            text += (i + 1) + ". " + users[i].username + " (" + users[i].timescaught + ")\n";
           }      
         }
         channel.send(text).then(function (message) {message.react("👍")});

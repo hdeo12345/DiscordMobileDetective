@@ -2,12 +2,13 @@ const Discord = require('discord.js');
 const axios = require('axios');
 const client = new Discord.Client();
 
-
 var channelid = process.env.CHANNEL_KEY;
 var serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];
 var users = [];
+
+var invalidCommandText = "That is an invalid command, please type **!mdhelp** for a list of available commands";
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -15,57 +16,97 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   let channel = client.channels.cache.get(channelid);
-  if(msg.content == "!mdrank") {
+  let message = msg.content.toLowerCase();
 
-    sortUsers();
-    
-    var count = 0;
-    var found = false;
-    users.forEach((elem) => {
-      count += 1;
-      if(elem.userid == msg.author.id) {
-        channel.send("You're ranked at number: **" + count + "/" + users.length + "** tut tut tut...");     
-        found = true;   
-      }
-    })
-    if(!found) {
-      channel.send("You have not been caught.          Yet....");     
+  if(message.startsWith("!md")){
+    let command = getCommand(message);
+    let input = getCommandInput(message);
+
+    if(command == false) {
+      channel.send(invalidCommandText); 
+      return false;
     }
-  }
-  if(msg.content.startsWith("!mdtop")) {
-    var amount = parseInt(msg.content.replace("!mdDEVtop",""));
-    console.log(channelid);
 
-    sortUsers();
-    var text = "<:crown:741752952737366057>";
-    var loopTimes = 0;
-    loopTimes = users.length > amount ? amount : users.length;
+    switch(command) {
+      case "help":
+        var text = "";
+        text += "Here is a list of commands that I understand:\n";
+        text += "**!mdrank** - This will display your current rank out of all users\n";
+        text += "**!mdtop <number>** - This will show the top number of users where '<number>' is a valid number provided\n";
+        text += "**!mdchannel <channelid>** - This is a command reserved for admins to change the channel that the bot outputs into\n";
+        text += "**!mdserver <serverid>** - This is a command reserved for admins to change the server that the bot outputs into\n";
 
-    for (i = 0; i < loopTimes; i++) {
-      if (i == 0) {
-        text += " <@" + users[i].userid + "> (" + users[i].timescaught + ")\n"
-      } else {
-        text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
-      }      
+        channel.send(text);
+        console.log("Help command has been activated");
+      break;
+      case "rank":
+        sortUsers();    
+        var count = 0;
+        var found = false;
+        users.forEach((elem) => {
+          count += 1;
+          if(elem.userid == msg.author.id) {
+            channel.send("You're ranked at number: **" + count + "/" + users.length + "** tut tut tut...");     
+            found = true;   
+          }
+        })
+        if(!found) {
+          channel.send("You have not been caught.          Yet....");     
+        }
+      break;
+      case "top":
+        if(isNaN(input)) { channel.send(invalidCommandText); return false; }
+        sortUsers();
+        console.log("Outputting top " + input + "users to channel");
+        var text = "<:crown:741752952737366057>";
+        var loopTimes = 0;
+        loopTimes = users.length > input ? input : users.length;
+
+        for (i = 0; i < loopTimes; i++) {
+          if (i == 0) {
+            text += " <@" + users[i].userid + "> (" + users[i].timescaught + ")\n"
+          } else {
+            text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
+          }      
+        }
+        text += "";
+        channel.send(text);
+      break;
+      case "channel":
+        if(isNaN(input)) { channel.send(invalidCommandText); return false;}
+        if(admins.includes(msg.author.id))
+        {
+          channelid = input;
+          channel.send("I now post into the channel: <@" + channelid + ">"); 
+          console.log("Bot has now been updated to send message to the channel: " + input + " by " + msg.author.id);
+        } 
+      break;
+      case "server":
+        if(isNaN(input)) { channel.send(invalidCommandText); return false;}
+        if(admins.includes(msg.author.id))
+        {
+          serverid = input;
+          channel.send("I now post into the server: <@" + serverid + ">");
+          console.log("Bot has now been updated to send message to the server: " + input + " by " + msg.author.id);
+        } 
+      break;
     }
-    text += "";
-    channel.send(text);
-  } 
-  if(msg.content.startsWith("!mdchannel")){
-    if(admins.includes(msg.author.id))
-    {
-      channelid = msg.content.replace("!mdDEVchannel", "").toString();
-      channel.send("I now post into the channel: <@" + channelid + ">"); 
-    } 
-  }
-  if(msg.content.startsWith("!mdserver")){
-    if(admins.includes(msg.author.id))
-    {
-      serverid = msg.content.replace("!mdDEVserver", "").toString();
-      channel.send("I now post into the server: <@" + serverid + ">"); 
-    } 
   }
 });
+
+function getCommand(message) {
+  if(message == "!mdrank") { return "rank";}
+  if(message == "!mdhelp") { return "help";}
+  if(!message.includes(" ")) {return false;}
+
+  message = message.replace("!md", "");
+  var command = message.substr(0, message.indexOf(" "));
+
+  return command;
+}
+function getCommandInput(message){
+  return message.substr(message.indexOf(" ") + 1, message.length);
+}
 
 function sortUsers() {
   users.sort(function(a, b){
@@ -176,13 +217,12 @@ function addUser(puserID, pusername, ptimescaught) {
 //---------------------------------
 axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
 .then(response => {
-    console.log(response.data);
     response.data.forEach((rec)=>{
         users.push({userid: rec.userID, username: rec.username, timescaught: parseInt(rec.timesCaught)});
     })
-    console.log(users);
+    console.log("Data fetch successful! " + response.data.length + " users found");
 })
-    .catch(error => {
+.catch(error => {
     console.log(error);
 });          
 

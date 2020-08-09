@@ -155,12 +155,12 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
         if(elem.userid == userID) {
           found = true;
           elem.timescaught = parseInt(elem.timescaught) + 1;
-          recordUserCatch(member, channel, userID, member.user.username, elem.timescaught);
+          recordUserCatch(member, channel, userID, member.user.displayName, elem.timescaught);
           return true;
         }
       })
       if(!found) {
-        recordUserCatch(member, channel, userID, member.user.username, 1);
+        recordUserCatch(member, channel, userID, member.user.displayName, 1);
       }      
     }    
   }

@@ -17,7 +17,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  let channel = client.channels.cache.get(channelid);
+  let channel = client.channels.cache.get(msg.channel.id);
   let message = msg.content.toLowerCase();
 
   if(message.startsWith("!md")){
@@ -71,7 +71,7 @@ client.on('message', msg => {
             text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
           }      
         }
-        text += "";
+
         channel.send(text);
       break;
       case "channel":

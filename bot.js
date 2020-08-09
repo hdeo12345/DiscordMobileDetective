@@ -7,6 +7,7 @@ var channelid = process.env.CHANNEL_KEY;
 var serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];
+var users = [];
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -72,8 +73,6 @@ function sortUsers() {
   })
 }
 
-var users = [];
-
 function randomInsult() {
     var insults = [
         "The alcoholic",
@@ -93,8 +92,10 @@ function randomInsult() {
     return insult;
 }
 
-client.on('presenceUpdate', (oldPresence, newPresence) => {
-  
+//-------------------------
+//  ON PRESENCE UPDATE
+//-------------------------
+client.on('presenceUpdate', (oldPresence, newPresence) => {  
   try {
     let member = newPresence.member;
     if(member.guild.id !== serverid) {
@@ -122,7 +123,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     }    
   }
   catch(err) {
-    console.log(err);
+    console.log(err.toString());
   }    
 });
 

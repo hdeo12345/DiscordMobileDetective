@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const axios = require('axios');
 const client = new Discord.Client();
 
 
-var channelid = process.env.CHANNEL_KEY;
-var serverid = process.env.SERVER_KEY;
+var channelid = '741790649090834433';
+var serverid = '741679888251093063';
 
 var admins= ["232562168350900224", "141587971144024064"];
 
@@ -13,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   let channel = client.channels.cache.get(channelid);
-  if(msg.content == "!mdrank") {
+  if(msg.content == "!mdDEVrank") {
 
     sortUsers();
     
@@ -30,8 +31,8 @@ client.on('message', msg => {
       channel.send("You have not been caught.          Yet....");     
     }
   }
-  if(msg.content.startsWith("!mdtop")) {
-    var amount = parseInt(msg.content.replace("!mdtop",""));
+  if(msg.content.startsWith("!mdDEVtop")) {
+    var amount = parseInt(msg.content.replace("!mdDEVtop",""));
     console.log(channelid);
 
     sortUsers();
@@ -49,17 +50,17 @@ client.on('message', msg => {
     text += "";
     channel.send(text);
   } 
-  if(msg.content.startsWith("!mdchannel")){
+  if(msg.content.startsWith("!mdDEVchannel")){
     if(admins.includes(msg.author.id))
     {
-      channelid = msg.content.replace("!mdchannel", "").toString();
+      channelid = msg.content.replace("!mdDEVchannel", "").toString();
       channel.send("I now post into the channel: <@" + channelid + ">"); 
     } 
   }
-  if(msg.content.startsWith("!mdserver")){
+  if(msg.content.startsWith("!mdDEVserver")){
     if(admins.includes(msg.author.id))
     {
-      serverid = msg.content.replace("!mdserver", "").toString();
+      serverid = msg.content.replace("!mdDEVserver", "").toString();
       channel.send("I now post into the server: <@" + serverid + ">"); 
     } 
   }
@@ -72,7 +73,6 @@ function sortUsers() {
 }
 
 var users = [];
-
 
 function randomInsult() {
     var insults = [
@@ -93,7 +93,6 @@ function randomInsult() {
     return insult;
 }
 
-
 client.on('presenceUpdate', (oldPresence, newPresence) => {
   
   try {
@@ -104,27 +103,86 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     let userID = member.user.id;
     let channel = member.guild.channels.cache.get(channelid);
     let text = "";
-    if (oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") {
+    if(oldPresence == undefined) {
+      oldPresence.clientStatus.mobile = undefined;
+    }
+    if ((oldPresence.clientStatus.mobile == undefined && newPresence.clientStatus.mobile == "online") || (oldPresence == undefined && newPresence.clientStatus.mobile == "online")) {
       var found = false;
       users.forEach((elem) => {        
         if(elem.userid == userID) {
           found = true;
-          elem.timescaught = elem.timescaught + 1;
-          text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + elem.timescaught;
+          elem.timescaught = parseInt(elem.timescaught) + 1;
+          recordUserCatch(member, channel, userID, member.user.username, elem.timescaught);
           return true;
         }
       })
       if(!found) {
-        users.push({username: member.user.username, userid: userID, timescaught: 1});
-        console.log("added to database");
-        text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: 1";
-      }                     
-      channel.send(text);
+        recordUserCatch(member, channel, userID, member.user.username, 1);
+      }      
     }    
   }
   catch(err) {
     console.log(err);
-  }
-    
+  }    
 });
-client.login(process.env.BOT_TOKEN);
+
+//-------------------------
+//  RECORD USER CATCH
+//-------------------------
+function recordUserCatch(member, channel, userID, username, timescaught) {
+  axios.get('http://harrisondeo.me.uk/mobile_detective_bot/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username)
+  .then(response => {
+    updateUser(response.data.userID, response.data.username, parseInt(response.data.timesCaught));    
+    text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + timescaught;
+    console.log(username + " caught: " + timescaught);
+    channel.send(text);
+  })
+  .catch(error => {
+    console.log(error);
+    text = error;
+  });         
+}
+
+//-------------------------
+//  UPDATE USER
+//-------------------------
+function updateUser(puserID, pusername, ptimescaught){
+  if(ptimescaught == 1) {
+    addUser(puserID, pusername, ptimescaught);
+    console.log(pusername + " added to database");
+  } else {
+    for(user of users) {
+      if(user.userid == puserID) {
+        user.timescaught = parseInt(ptimescaught);
+      }
+    }
+  }
+}
+
+//-------------------------
+//  ADD USER
+//-------------------------
+function addUser(puserID, pusername, ptimescaught) {
+  users.push({
+    username: pusername,
+    userid: puserID,
+    timescaught: ptimescaught
+  })
+}
+
+//---------------------------------
+//  GET RECORDS FROM DATABASE
+//---------------------------------
+axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
+.then(response => {
+    console.log(response.data);
+    response.data.forEach((rec)=>{
+        users.push({userid: rec.userID, username: rec.username, timescaught: parseInt(rec.timesCaught)});
+    })
+    console.log(users);
+})
+    .catch(error => {
+    console.log(error);
+});          
+
+client.login("NzQxNzg5NDE2NjgyNTUzNDE0.Xy8rOg.6DCkhfbMFZYlKN37sHhCvTsRYu4");

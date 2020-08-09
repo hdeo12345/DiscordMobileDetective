@@ -71,8 +71,7 @@ client.on('message', msg => {
             text += (i + 1) + ". <@" + users[i].userid + "> (" + users[i].timescaught + ")\n";
           }      
         }
-        text += "";
-        channel.send(text);
+        channel.send(text).then(function (message) {message.react("👍")});
       break;
       case "channel":
         if(isNaN(input)) { channel.send(invalidCommandText); return false;}

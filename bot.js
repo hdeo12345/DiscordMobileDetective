@@ -3,8 +3,8 @@ const axios = require('axios');
 const client = new Discord.Client();
 
 
-var channelid = '741790649090834433';
-var serverid = '741679888251093063';
+var channelid = process.env.CHANNEL_KEY;
+var serverid = process.env.SERVER_KEY;
 
 var admins= ["232562168350900224", "141587971144024064"];
 
@@ -185,4 +185,4 @@ axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
     console.log(error);
 });          
 
-client.login("NzQxNzg5NDE2NjgyNTUzNDE0.Xy8rOg.6DCkhfbMFZYlKN37sHhCvTsRYu4");
+client.login(process.env.BOT_TOKEN);

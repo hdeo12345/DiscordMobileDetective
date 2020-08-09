@@ -17,7 +17,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  let channel = client.channels.cache.get(channelid);
+  let channel = client.channels.cache.get(msg.channel.id);
   let message = msg.content.toLowerCase();
 
   if(message.startsWith("!md")){
@@ -60,7 +60,7 @@ client.on('message', msg => {
         if(isNaN(input)) { channel.send(invalidCommandText); return false; }
         sortUsers();
         console.log("Outputting top " + input + "users to channel");
-        var text = "<:crown:741752952737366057>";
+        var text = "Top List: \n <:crown:741752952737366057>";
         var loopTimes = 0;
         loopTimes = users.length > input ? input : users.length;
 
@@ -140,9 +140,6 @@ function randomInsult() {
 client.on('presenceUpdate', (oldPresence, newPresence) => {  
   try {
     let member = newPresence.member;
-    if(member.guild.id !== serverid) {
-        return;
-    }
     let userID = member.user.id;
     let channel = member.guild.channels.cache.get(channelid);
     let text = "";
@@ -155,12 +152,12 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
         if(elem.userid == userID) {
           found = true;
           elem.timescaught = parseInt(elem.timescaught) + 1;
-          recordUserCatch(member, channel, userID, member.user.username, elem.timescaught);
+          recordUserCatch(member, channel, userID, member.displayName, elem.timescaught);
           return true;
         }
       })
       if(!found) {
-        recordUserCatch(member, channel, userID, member.user.username, 1);
+        recordUserCatch(member, channel, userID, member.displayName, 1);
       }      
     }    
   }

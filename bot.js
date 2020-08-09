@@ -12,6 +12,8 @@ var invalidCommandText = "That is an invalid command, please type **!mdhelp** fo
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  var tempchannel = client.channels.cache.get(channelid);
+  tempchannel.send("Just had to reboot real quick, don't worry, I still have all the data on you all....");
 });
 
 client.on('message', msg => {
@@ -227,6 +229,3 @@ axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
 });          
 
 client.login(process.env.BOT_TOKEN);
-
-var tempchannel = client.channels.cache.get(channelid);
-tempchannel.send("Just had to reboot real quick, don't worry, I still have all the data on you all....");

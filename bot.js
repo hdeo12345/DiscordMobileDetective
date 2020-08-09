@@ -174,7 +174,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 //  RECORD USER CATCH
 //-------------------------
 function recordUserCatch(member, channel, userID, username, timescaught) {
-  axios.get('http://harrisondeo.me.uk/mobile_detective_bot/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username)
+  axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username)
   .then(response => {
     updateUser(response.data.userID, response.data.username, parseInt(response.data.timesCaught));    
     text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + timescaught;
@@ -217,7 +217,7 @@ function addUser(puserID, pusername, ptimescaught) {
 //---------------------------------
 //  GET RECORDS FROM DATABASE
 //---------------------------------
-axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
+axios.get(process.env.DATABASE_URL + '/getAllUsers.php')
 .then(response => {
     response.data.forEach((rec)=>{
         users.push({userid: rec.userID, username: rec.username, timescaught: parseInt(rec.timesCaught)});

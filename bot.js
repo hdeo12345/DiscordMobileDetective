@@ -173,7 +173,7 @@ function recordUserCatch(member, channel, userID, username, timescaught) {
   axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username)
   .then(response => {
     updateUser(response.data.userID, response.data.username, parseInt(response.data.timesCaught));    
-    text = randomInsult() + " " + member + " " + " has been caught on their phone! - Times caught: " + timescaught;
+    text = randomInsult() + " " + member.displayName + " has been caught on their phone! - Times caught: " + timescaught;
     console.log(username + " caught: " + timescaught);
     channel.send(text);
   })

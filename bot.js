@@ -227,3 +227,5 @@ axios.get('http://harrisondeo.me.uk/mobile_detective_bot/getAllUsers.php')
 });          
 
 client.login(process.env.BOT_TOKEN);
+var channel = client.channels.cache.get(channelid);
+channel.send("Just had to reboot real quick, don't worry, I still have all the data on you all....");

@@ -59,7 +59,6 @@ client.on('message', msg => {
       case "top":
         if(isNaN(input)) { channel.send(invalidCommandText); return false; }
         sortUsers();
-        var guild = client.guilds.get(msg.channel.id); 
         console.log("Outputting top " + input + "users to channel");
         var text = "Top List: \n <:crown:741752952737366057>";
         var loopTimes = 0;
@@ -67,7 +66,7 @@ client.on('message', msg => {
 
         for (i = 0; i < loopTimes; i++) {
           if (i == 0) {
-            text += " " + guild.member(users[i].userid).displayName + " (" + users[i].timescaught + ")\n"
+            text += " " + users[i].username + " (" + users[i].timescaught + ")\n"
           } else {
             text += (i + 1) + ". " + users[i].username + " (" + users[i].timescaught + ")\n";
           }      

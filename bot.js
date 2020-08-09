@@ -15,7 +15,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   let channel = client.channels.cache.get(channelid);
-  if(msg.content == "!mdDEVrank") {
+  if(msg.content == "!mdrank") {
 
     sortUsers();
     
@@ -32,7 +32,7 @@ client.on('message', msg => {
       channel.send("You have not been caught.          Yet....");     
     }
   }
-  if(msg.content.startsWith("!mdDEVtop")) {
+  if(msg.content.startsWith("!mdtop")) {
     var amount = parseInt(msg.content.replace("!mdDEVtop",""));
     console.log(channelid);
 
@@ -51,14 +51,14 @@ client.on('message', msg => {
     text += "";
     channel.send(text);
   } 
-  if(msg.content.startsWith("!mdDEVchannel")){
+  if(msg.content.startsWith("!mdchannel")){
     if(admins.includes(msg.author.id))
     {
       channelid = msg.content.replace("!mdDEVchannel", "").toString();
       channel.send("I now post into the channel: <@" + channelid + ">"); 
     } 
   }
-  if(msg.content.startsWith("!mdDEVserver")){
+  if(msg.content.startsWith("!mdserver")){
     if(admins.includes(msg.author.id))
     {
       serverid = msg.content.replace("!mdDEVserver", "").toString();

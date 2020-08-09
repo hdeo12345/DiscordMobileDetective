@@ -71,7 +71,7 @@ client.on('message', msg => {
             text += (i + 1) + ". " + users[i].username + " (" + users[i].timescaught + ")\n";
           }      
         }
-        channel.send(text).then(function (message) {message.react(client.emojis.get("742083185491574825"))});
+        channel.send(text);
       break;
       case "channel":
         if(isNaN(input)) { channel.send(invalidCommandText); return false;}

@@ -17,7 +17,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  let channel = client.channels.cache.get(channelid);
+  let channel = client.channels.cache.get(msg.channel.id);
   let message = msg.content.toLowerCase();
 
   if(message.startsWith("!md")){

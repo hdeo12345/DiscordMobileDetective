@@ -66,12 +66,12 @@ client.on('message', msg => {
 
         for (i = 0; i < loopTimes; i++) {
           if (i == 0) {
-            text += " <@" + users[i].userid + "> (" + users[i].timescaught + ")\n"
+            text += " " + users[i].username + " (" + users[i].timescaught + ")\n"
           } else {
             text += (i + 1) + ". " + users[i].username + " (" + users[i].timescaught + ")\n";
           }      
         }
-        channel.send(text).then(function (message) {message.react("👍")});
+        channel.send(text).then(function (message) {message.react(client.emojis.get("742083185491574825"))});
       break;
       case "channel":
         if(isNaN(input)) { channel.send(invalidCommandText); return false;}

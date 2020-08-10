@@ -163,6 +163,9 @@ function getUsersByServer(serverid) {
       serverUsers.push(value);
     }
   })
+  serverUsers.sort(function(a, b){
+    return b.timesCaught - a.timesCaught
+  })
   return serverUsers;
 }
 function getCommand(message) {

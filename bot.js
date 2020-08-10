@@ -55,7 +55,7 @@ client.on('ready', () => {
   axios.get(process.env.DATABASE_URL + '/getAllServers.php')
   .then(response => {
     response.data.forEach((rec)=>{
-      servers.push(new server(rec.serverID, rec.channelID))      
+      servers.push(new server(rec.serverid, rec.channelID))      
       var tempchannel = client.channels.cache.get(rec.channelID);
       if(tempchannel !== undefined) {
         tempchannel.send("Just had to reboot real quick, back online now!");
@@ -71,7 +71,7 @@ client.on('ready', () => {
   axios.get(process.env.DATABASE_URL + '/getAllUsers.php')
   .then(response => {
       response.data.forEach((rec)=>{
-          users.push({userid: rec.userID, username: rec.username, timescaught: parseInt(rec.timesCaught), serverID: rec.serverID});
+          users.push({userid: rec.userID, username: rec.username, timescaught: parseInt(rec.timesCaught), serverid: rec.serverid});
       })
       console.log("Data fetch successful! " + response.data.length + " users found");
   })
@@ -109,7 +109,7 @@ client.on('message', msg => {
         var found = false;
         serverUsers.forEach((elem) => {
           count += 1;
-          if(elem.userid == msg.author.id && elem.serverID == msg.guild.id) {
+          if(elem.userid == msg.author.id && elem.serverid == msg.guild.id) {
             channel.send("You're ranked at number: **" + count + "/" + serverUsers.length + "** tut tut tut...");     
             found = true;   
           }
@@ -159,7 +159,7 @@ client.on('message', msg => {
 function getUsersByServer(serverid) {
   var serverUsers = [];
   users.forEach(function(value, index){
-    if(value.serverID == serverid) {
+    if(value.serverid == serverid) {
       serverUsers.push(value);
     }
   })
@@ -278,7 +278,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
       channel = member.guild.channels.cache.get(clientServer.getOutputChannel());
       var found = false;
       users.forEach((elem) => {        
-        if(elem.userid == userID && elem.serverID == clientServer.serverid) {
+        if(elem.userid == userID && elem.serverid == clientServer.serverid) {
           found = true;
           elem.timescaught = parseInt(elem.timescaught) + 1;
           recordUserCatch(member, channel, userID, member.displayName, elem.timescaught, member.guild.id);
@@ -298,10 +298,10 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 //-------------------------
 //  RECORD USER CATCH
 //-------------------------
-function recordUserCatch(member, channel, userID, username, timescaught, serverID) {
-  axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username + '&serverid=' + serverID)
+function recordUserCatch(member, channel, userID, username, timescaught, serverid) {
+  axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username + '&serverid=' + serverid)
   .then(response => {
-    updateUser(response.data[0].userID, response.data[0].username, parseInt(response.data[0].timesCaught), response.data[0].serverID);    
+    updateUser(response.data[0].userID, response.data[0].username, parseInt(response.data[0].timesCaught), response.data[0].serverid);    
     text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + timescaught;
     console.log(username + " caught: " + timescaught);
     channel.send(text);
@@ -315,13 +315,13 @@ function recordUserCatch(member, channel, userID, username, timescaught, serverI
 //-------------------------
 //  UPDATE USER
 //-------------------------
-function updateUser(puserID, pusername, ptimescaught, serverID){
+function updateUser(puserID, pusername, ptimescaught, serverid){
   if(ptimescaught == 1) {
-    addUser(puserID, pusername, ptimescaught, serverID);
+    addUser(puserID, pusername, ptimescaught, serverid);
     console.log(pusername + " added to database");
   } else {
     for(user of users) {
-      if(user.userid == puserID && user.serverID == serverID) {
+      if(user.userid == puserID && user.serverid == serverid) {
         user.timescaught = parseInt(ptimescaught);
       }
     }
@@ -331,12 +331,12 @@ function updateUser(puserID, pusername, ptimescaught, serverID){
 //-------------------------
 //  ADD USER
 //-------------------------
-function addUser(puserID, pusername, ptimescaught, pserverID) {
+function addUser(puserID, pusername, ptimescaught, pserverid) {
   users.push({
     username: pusername,
     userid: puserID,
     timescaught: ptimescaught,
-    serverid: pserverID
+    serverid: pserverid
   })
 }  
 

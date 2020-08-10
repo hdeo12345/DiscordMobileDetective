@@ -2,9 +2,6 @@ const Discord = require('discord.js');
 const axios = require('axios');
 const client = new Discord.Client();
 
-process.env.BOT_TOKEN = "NzQxNzg5NDE2NjgyNTUzNDE0.Xy8rOg.n7wHDvNm23lC7Tf6Ohihn7RbXS0";
-process.env.DATABASE_URL = "http://harrisondeo.me.uk/mobile_detective_bot/DEV";
-
 var users = [];
 var servers = [];
 

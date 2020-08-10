@@ -164,7 +164,7 @@ function getUsersByServer(serverid) {
     }
   })
   serverUsers.sort(function(a, b){
-    return b.timesCaught - a.timesCaught
+    return b.timescaught - a.timescaught
   })
   return serverUsers;
 }

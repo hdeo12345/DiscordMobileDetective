@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 const axios = require('axios');
 const client = new Discord.Client();
 
+process.env.BOT_TOKEN = "NzQxNzg5NDE2NjgyNTUzNDE0.Xy8rOg.Q65RD_ykSTMmtpIDtgPhrXJ3Wg0";
+process.env.DATABASE_URL = "http://harrisondeo.me.uk/mobile_detective_bot/DEV";
+
 var users = [];
 var servers = [];
 
@@ -301,7 +304,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 function recordUserCatch(member, channel, userID, username, timescaught, serverID) {
   axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username + '&serverid=' + serverID)
   .then(response => {
-    updateUser(response.data.userID, response.data.username, parseInt(response.data.timesCaught), response.data.serverID);    
+    updateUser(response.data[0].userID, response.data[0].username, parseInt(response.data[0].timesCaught), response.data[0].serverID);    
     text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + timescaught;
     console.log(username + " caught: " + timescaught);
     channel.send(text);

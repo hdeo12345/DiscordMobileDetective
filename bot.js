@@ -301,7 +301,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 function recordUserCatch(member, channel, userID, username, timescaught, serverID) {
   axios.get(process.env.DATABASE_URL + '/recordUserCatch.php?userid=' + userID + '&timesCaught=' + timescaught + '&username=' + username + '&serverid=' + serverID)
   .then(response => {
-    updateUser(response.data.userID, response.data.username, parseInt(response.data.timesCaught), response.data.serverID);    
+    updateUser(response.data[0].userID, response.data[0].username, parseInt(response.data[0].timesCaught), response.data[0].serverID);    
     text = randomInsult() + " <@" + member + "> " + " has been caught on their phone! - Times caught: " + timescaught;
     console.log(username + " caught: " + timescaught);
     channel.send(text);
